@@ -1,0 +1,6 @@
+pandas==2.2.2
+duckdb==1.0.0
+pytest==8.3.2
+pyarrow==21.0.0
+requests==2.32.3  #mock API
+python-dotenv==1.0.1  #variables de entorno

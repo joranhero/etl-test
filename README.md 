@@ -1,0 +1,76 @@
+
+# Proyecto ETL-TEST
+
+Este proyecto implementa un pipeline ETL para procesar datos de órdenes, usuarios y productos utilizando Python y DuckDB.  
+El pipeline realiza extracción, transformación y carga de datos desde archivos JSON y CSV hacia archivos Parquet particionados por fecha.
+
+## Estructura del proyecto
+
+- `src/`  
+  Código fuente del pipeline:  
+  - `etl_job.py`: script principal de la pipeline.  
+  - `transforms.py`: transformaciones y uniones de datos.  
+  - `api_client.py`: funciones para extraer datos de órdenes.  
+  - `db.py`: funciones para cargar datos de usuarios y productos.
+
+- `sample_data/`  
+  Datos de entrada en formatos JSON y CSV.
+
+- `output/`  
+  Datos de salida, organizados en carpetas con particiones por fecha en formato Parquet y RAW, junto con una carpera que contiene las metricas.
+
+- `tests/`  
+  Pruebas unitarias usando pytest y unittest.mock.
+
+## Requisitos
+
+- Python 3.8+  
+- Paquetes Python: pandas, duckdb, pyarrow, argparse, logging
+
+Instalar dependencias:
+pip install -r requirements.txt
+
+## Uso local sin contenedor
+Ejecutar el ELT con opción incremental `--since`:
+python src/etl_job.py --since 2025-08-01
+
+## Uso con Docker
+### Construir la imagen Docker en caso de no existir
+docker build -t etl-test:latest .
+
+### Ejecutar contenedor (ejemplo con fecha desde 2025-08-01)
+docker run --rm etl-test python src/etl_job.py --since 2025-08-01
+
+### Montar volúmenes para usar datos locales 
+en caso de querer exportar e importar archivos afuera del contenedor
+docker run --rm -v $(pwd)/output:/app/output etl-test
+
+
+## Descripción del pipeline
+
+1. Extracción: lectura de órdenes, usuarios y productos desde archivos locales.  
+2. Transformación: normalización de fechas, expansión de items, enriquecimiento con DuckDB.  
+3. Carga: guardado en formato Parquet, particionado por `created_at` en tabla de hechos.  
+
+## Observabilidad
+
+- Logging integrado para monitorear el flujo y reportar errores.
+- Métricas básicas para contar órdenes procesadas.
+
+
+## Testing
+comando para ejecutar tests automatizados:
+pytest
+
+en caso de error en la ejecucion del test basado en el kernel darwin 
+crear un archivo vacio __init__.py en la carpeta source y test si la compilacion lo requiere junto 
+con un archivo pytest.ini ubicado en la raiz del preoyecto con la siguientes declaraciones
+
+pythonpath = src
+testpaths = tests
+python_files = test_*.py
+python_functions = test_*
+
+#test en contenedor
+comando para el test automatizado dentro del contenedor
+docker run --rm etl-test pytest
