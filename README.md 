@@ -43,7 +43,7 @@ docker run --rm etl-test python src/etl_job.py --since 2025-08-01
 
 ### Montar volúmenes para usar datos locales 
 en caso de querer exportar e importar archivos afuera del contenedor
-docker run --rm -v $(pwd)/output:/app/output etl-test
+docker run --rm -v "$(pwd)/output:/app/output" etl-test
 
 
 ## Descripción del pipeline
