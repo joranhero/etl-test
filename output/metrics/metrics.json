@@ -1,0 +1,8 @@
+{
+  "input_orders": 5,
+  "valid_orders": 4,
+  "deduped_orders": 5,
+  "items": 5,
+  "dim_user": 3,
+  "dim_product": 3
+}

@@ -1,0 +1,6 @@
+order_id,user_id,amount,currency,created_at,sku,qty,price,email,country,product_name,category
+o_1001,u_1,120.0,USD,2025-08-20 10:23:10-05:00,p_1,2,60.0,alice@example.com,US,Wireless Headphones,Audio
+o_1002,u_2,40.0,USD,2025-08-22 04:05:00-05:00,p_2,1,25.0,bob@example.com,CO,USB-C Hub,Accessories
+o_1002,u_2,40.0,USD,2025-08-22 04:05:00-05:00,p_3,3,5.0,bob@example.com,CO,Sticker Pack,Merch
+o_bad_1,u_3,10.0,USD,2025-08-30 15:19:14.904909-05:00,p_3,1,10.0,charlie@example.com,MX,Sticker Pack,Merch
+o_1003,u_2,39.99,USD,2025-08-23 13:45:00-05:00,,0,0.0,bob@example.com,CO,,

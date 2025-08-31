@@ -108,6 +108,23 @@ def main(since):
 
     logger.info("ETL completado correctamente.")
 
+    # Guardar datos también en CSV para Power BI
+    output_curated_csv = os.path.join(base_dir, 'output/curated_csv')
+    for df, name in [
+        (fact_order, 'fact_order'),
+        (dim_user, 'dim_user'),
+        (dim_product, 'dim_product')
+    ]:
+        path_csv = os.path.join(output_curated_csv, f"{name}/{partition_date}")
+        os.makedirs(path_csv, exist_ok=True)
+        csv_file = os.path.join(path_csv, 'data.csv')
+        try:
+            df.to_csv(csv_file, index=False)
+            logger.info(f"{name} guardado en CSV en: {csv_file}")
+        except Exception as e:
+            logger.error(f"Error guardando {name} en CSV: {e}")
+
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

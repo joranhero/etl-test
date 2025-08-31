@@ -25,6 +25,9 @@ Procesar datos de órdenes, usuarios y productos eficientemente con Python y Duc
 
 - Parámetro `--since` para procesar sólo datos nuevos o modificados desde una fecha controlada.
 
+## Deduplicación en el proceso de transformación
+Al expandir las órdenes y sus ítems, se eliminan filas duplicadas usando pandas y DuckDB, basándonos en claves naturales `order_id` y `sku`). Esto previene que registros repetidos se propaguen a la tabla de hechos final.
+
 ## Observabilidad
 
 - Logging para auditoría y debug.  
@@ -46,13 +49,6 @@ la obserbabilidad en entornos de produccion dependerá de la arquitectura y la i
 - Contenedor configurado para ejecutar pipeline en cualquier entorno reproducible.  
 - Montaje opcional de volúmenes para entrada/salida de datos.  
 - Facilita despliegue en nube y orquestadores.
-
-## Futuras Mejoras
-
-- Automatizar alertas vía integración con Slack o email.  
-- Añadir métricas con Prometheus o similar.  
-- Orquestar con Airflow u otro scheduler.  
-- Soporte para lectura directa desde APIs o bases de datos.
 
 ## Decisiones clave:
 - Elección: pandas + DuckDB por ligereza local vs PySpark (más pesado para samples pequeños). Trade-off: DuckDB es rápido para joins, pero PySpark escala mejor en producción.
